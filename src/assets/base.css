@@ -1,0 +1,10 @@
+/* 公共组件样式 */
+body {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+
+  box-sizing: border-box;
+
+  transform-origin: left top;
+}

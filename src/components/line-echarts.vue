@@ -1,0 +1,196 @@
+<template>
+  <div ref="divRef" :style="{ width: width, height: height }"></div>
+</template>
+
+<script setup>
+import { onMounted, watch, ref } from "vue";
+
+import * as echarts from "echarts";
+import useEchart from "@/hooks/useEchart";
+const props = defineProps({
+  width: { type: String, default: "100%" },
+  height: {
+    type: String,
+    default: "100%",
+  },
+  echartDatas: {
+    type: Array,
+    default: () => [],
+  },
+});
+
+//拿到dom对象
+let divRef = ref(null);
+let rChart = null;
+onMounted(() => {
+  setupEchart(props.echartDatas);
+});
+
+watch(
+  () => props.echartDatas,
+  (newV, oldV) => {
+    setupEchart(newV);
+  }
+);
+
+function setupEchart(echartDatas = []) {
+  if (!rChart) {
+    rChart = useEchart(divRef.value);
+  }
+  let option = getOption(echartDatas);
+  rChart.setOption(option);
+}
+
+function getOption(echartDatas) {
+  let option = {
+    grid: {
+      left: "5%",
+      right: "1%",
+      top: "20%",
+      bottom: "15%",
+      containLabel: true, // grid 区域是否包含坐标轴的刻度标签
+    },
+    legend: {
+      right: "center",
+      bottom: "5%",
+      itemGap: 20,
+      itemWidth: 13,
+      itemHeigth: 12,
+
+      textStyle: {
+        color: "#64BCFF",
+      },
+      icon: "rect",
+    },
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "line",
+        lineStyle: {
+          color: "#20FF89",
+        },
+      },
+    },
+    xAxis: [
+      {
+        type: "category",
+        axisLine: {
+          show: false,
+        },
+        axisLabel: {
+          color: "#64BCFF",
+        },
+        splitLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        data: [
+          "1月",
+          "2月",
+          "3月",
+          "4月",
+          "5月",
+          "6月",
+          "7月",
+          "8月",
+          "9月",
+          "10月",
+          "11月",
+          "12月",
+        ],
+      },
+    ],
+    yAxis: [
+      {
+        type: "value",
+        splitLine: {
+          show: false,
+        },
+        axisLine: {
+          show: false,
+        },
+        axisLabel: {
+          show: true,
+          color: "#64BCFF",
+        },
+      },
+    ],
+    series: [
+      // 第一条折线图
+      {
+        name: echartDatas[0].name,
+        type: "line",
+        smooth: true, // 是否平滑曲线显示。
+        symbolSize: 5, // 标记的大小
+        showSymbol: false,
+        stack: "总量",
+        itemStyle: {
+          color: "#20FF89",
+        },
+        // 区域填充样式。设置后显示成区域面积图。
+        areaStyle: {
+          color: echarts.graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: "#20FF89",
+              },
+              {
+                offset: 1,
+                color: "rgba(255, 255, 255, 0)",
+              },
+            ],
+            false
+          ),
+        },
+        data: echartDatas[0].data,
+      },
+
+      // 第二条折线图 (  n 个系列图 )
+      {
+        name: echartDatas[1].name,
+        type: "line",
+        smooth: true, // 是否平滑曲线显示。
+        symbolSize: 5, // 标记的大小，可以设置成诸如 10 这样单一的数字
+        stack: "总量",
+        showSymbol: false, // 是否显示 symbol, 如果 false 则只有在 tooltip hover 的时候显示。
+        itemStyle: {
+          // 折线的颜色
+          color: "#EA9502",
+        },
+        // 折线区域的颜色
+        areaStyle: {
+          color: {
+            type: "linear",
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: "#EA9502",
+              },
+              {
+                offset: 1,
+                color: "rgba(255, 255, 255, 0)",
+              },
+            ],
+          },
+        },
+        data: echartDatas[1].data,
+      },
+    ],
+  };
+
+  return option;
+}
+</script>
+
+<style scoped></style>

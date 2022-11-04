@@ -17,9 +17,15 @@
     <div class="right-center">
       <BarCharts :echartDatas="chargingStatistics"></BarCharts>
     </div>
-    <div class="right-bottom"></div>
+    <div class="right-bottom">
+      <RightBottomSvg
+        :exceptionMonitoring="exceptionMonitoring"
+      ></RightBottomSvg>
+    </div>
     <div class="center"></div>
-    <div class="bottom"></div>
+    <div class="bottom">
+      <BottomPanel :panelItems="dataAnalysis"></BottomPanel>
+    </div>
   </main>
 </template>
 
@@ -28,12 +34,17 @@ import PieCharts from "@/components/pie-echarts.vue";
 import LineCharts from "@/components/line-echarts.vue";
 import BarCharts from "@/components/bar-echarts.vue";
 import RightTopPanel from "@/components/right-top-panel.vue";
+import RightBottomSvg from "@/components/right-bottom-svg.vue";
+import BottomPanel from "@/components/bottom-panel.vue";
+
 import { ref } from "vue";
 import {
   chargingPileData,
   processMonitoringData,
   chargingStatisticsData,
   chargingTop4Data,
+  dataAnalysisData,
+  exceptionMonitoringData,
 } from "./config/home-data";
 
 // 接口引入
@@ -47,16 +58,27 @@ let chargingStatistics = ref(chargingStatisticsData);
 // 充电桩Top4占比
 let chargingTop4 = ref(chargingTop4Data);
 let percentage = ref(0);
+// 充电桩数据分析
+let dataAnalysis = ref(dataAnalysisData);
+
+// 异常监控
+let exceptionMonitoring = ref(exceptionMonitoringData);
 
 const createData = async () => {
   let data = await getPowerScreenData();
-  console.log("数据", data.data);
-  chargingPile.value = data.data.chargingPile.data;
-  processMonitoring.value = data.data.processMonitoring.data;
-  chargingStatistics.value = data.data.chargingStatistics.data;
+  let dataValue = data.data;
+  console.log("数据", dataValue);
 
-  chargingTop4.value = data.data.chargingTop4.data;
-  percentage.value = data.data.chargingTop4.totalPercentage;
+  chargingPile.value = dataValue.chargingPile.data;
+  processMonitoring.value = dataValue.processMonitoring.data;
+  chargingStatistics.value = dataValue.chargingStatistics.data;
+
+  chargingTop4.value = dataValue.chargingTop4.data;
+  percentage.value = dataValue.chargingTop4.totalPercentage;
+
+  dataAnalysis.value = dataValue.dataAnalysis.data;
+
+  exceptionMonitoring.value = dataValue.exceptionMonitoring.data;
 };
 
 createData();

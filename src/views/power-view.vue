@@ -22,7 +22,9 @@
         :exceptionMonitoring="exceptionMonitoring"
       ></RightBottomSvg>
     </div>
-    <div class="center"></div>
+    <div class="center">
+      <CenterSvg></CenterSvg>
+    </div>
     <div class="bottom">
       <BottomPanel :panelItems="dataAnalysis"></BottomPanel>
     </div>
@@ -36,7 +38,7 @@ import BarCharts from "@/components/bar-echarts.vue";
 import RightTopPanel from "@/components/right-top-panel.vue";
 import RightBottomSvg from "@/components/right-bottom-svg.vue";
 import BottomPanel from "@/components/bottom-panel.vue";
-
+import CenterSvg from "@/components/center-svg.vue";
 import { ref } from "vue";
 import {
   chargingPileData,
@@ -177,7 +179,7 @@ createData();
   bottom: 272px;
   width: 823px;
   height: 710px;
-  border: 5px solid pink;
+  /* border: 5px solid pink; */
 }
 .bottom {
   position: absolute;

@@ -73,6 +73,7 @@ const createData = async () => {
 
   chargingPile.value = dataValue.chargingPile.data;
   processMonitoring.value = dataValue.processMonitoring.data;
+  console.log("processMonitoring.value", processMonitoring.value);
   chargingStatistics.value = dataValue.chargingStatistics.data;
 
   chargingTop4.value = dataValue.chargingTop4.data;

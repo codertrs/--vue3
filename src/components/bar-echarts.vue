@@ -113,16 +113,14 @@ const getOption = (echartDatas) => {
             y: 0,
             x2: 0,
             y2: 1,
-            colorStops: [
-              {
+            colorStops: [{
                 offset: 0,
                 color: "#01B1FF", // 0% 处的颜色
               },
               {
                 offset: 1,
                 color: "#033BFF", // 100% 处的颜色
-              },
-            ],
+              }],
             global: false, // 缺省为 false
           },
         },

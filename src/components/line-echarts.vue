@@ -131,12 +131,14 @@ function getOption(echartDatas) {
         },
         // 区域填充样式。设置后显示成区域面积图。
         areaStyle: {
-          color: echarts.graphic.LinearGradient(
-            0,
-            0,
-            0,
-            1,
-            [
+          // color: echarts.graphic.LinearGradient(
+          color: {
+            type: "linear",
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
               {
                 offset: 0,
                 color: "#20FF89",
@@ -146,8 +148,8 @@ function getOption(echartDatas) {
                 color: "rgba(255, 255, 255, 0)",
               },
             ],
-            false
-          ),
+            // false
+          },
         },
         data: echartDatas[0].data,
       },
@@ -182,6 +184,7 @@ function getOption(echartDatas) {
                 color: "rgba(255, 255, 255, 0)",
               },
             ],
+            global: false, //缺省为false
           },
         },
         data: echartDatas[1].data,
